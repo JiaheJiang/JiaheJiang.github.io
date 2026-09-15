@@ -1,0 +1,20 @@
+---
+import type { Project } from "../data/projects";
+
+const { project } = Astro.props as { project: Project };
+---
+
+<article class="card">
+  <p class="eyebrow">{project.category}</p>
+  <h3>{project.title}</h3>
+  <p>{project.summary}</p>
+  <p class="metadata">{project.contribution}</p>
+  <ul class="tag-list" aria-label={`${project.title} technologies`}>
+    {project.technologies.slice(0, 3).map((tech) => <li>{tech}</li>)}
+  </ul>
+  {project.links.length > 0 && (
+    <div class="card-actions">
+      {project.links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </div>
+  )}
+</article>

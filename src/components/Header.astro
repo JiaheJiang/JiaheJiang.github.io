@@ -1,0 +1,48 @@
+---
+import { navItems, profile } from "../data/profile";
+
+const current = Astro.url.pathname;
+const isCurrent = (href: string) =>
+  href === "/" ? current === "/" : current.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label={`${profile.name} home`}>{profile.name}</a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <ul class="nav-list">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={!item.external && isCurrent(item.href) ? "page" : undefined}
+              target={item.external ? "_blank" : undefined}
+              rel={item.external ? "noopener noreferrer" : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <details class="mobile-nav">
+      <summary>Menu</summary>
+      <nav aria-label="Mobile navigation">
+        <ul class="nav-list">
+          {navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={!item.external && isCurrent(item.href) ? "page" : undefined}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noopener noreferrer" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>

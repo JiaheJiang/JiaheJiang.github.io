@@ -1,0 +1,22 @@
+---
+import Figure from "./Figure.astro";
+import type { ResearchItem } from "../data/research";
+
+const { item } = Astro.props as { item: ResearchItem };
+---
+
+<article class="card">
+  <Figure {...item.visual} />
+  <p class="eyebrow">{item.affiliation}</p>
+  <h3>{item.title}</h3>
+  <p>{item.description}</p>
+  <p class="metadata"><strong>Method:</strong> {item.method}</p>
+  <ul class="tag-list" aria-label={`${item.shortTitle} topics`}>
+    {item.topics.slice(0, 3).map((topic) => <li>{topic}</li>)}
+  </ul>
+  {item.resources.length > 0 && (
+    <div class="card-actions">
+      {item.resources.map((resource) => <a href={resource.href}>{resource.label}</a>)}
+    </div>
+  )}
+</article>

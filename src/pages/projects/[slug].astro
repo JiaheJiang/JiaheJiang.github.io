@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { projects } from "../../data/projects";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props;
+---
+
+<BaseLayout title={project.title} description={project.summary}>
+  <header class="page-header">
+    <p class="eyebrow">{project.category} · {project.maturity}</p>
+    <h1>{project.title}</h1>
+    <p class="lead">{project.summary}</p>
+  </header>
+  <section class="section">
+    <div class="split">
+      <aside class="card">
+        <p class="eyebrow">Stack and links</p>
+        <ul class="tag-list">
+          {project.technologies.map((tech) => <li>{tech}</li>)}
+        </ul>
+        <div class="card-actions">
+          {project.links.map((link) => <a href={link.href}>{link.label}</a>)}
+        </div>
+      </aside>
+      <article class="prose">
+        <h2>User problem</h2>
+        <p>{project.problem}</p>
+        <h2>My contribution</h2>
+        <p>{project.contribution}</p>
+        <h2>Architecture</h2>
+        <p>{project.architecture}</p>
+        <h2>Verification</h2>
+        <ul>
+          {project.verification.map((point) => <li>{point}</li>)}
+        </ul>
+        <h2>Limitations</h2>
+        <ul>
+          {project.limitations.map((point) => <li>{point}</li>)}
+        </ul>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

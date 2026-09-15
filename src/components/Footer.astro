@@ -1,0 +1,19 @@
+---
+import { navItems, profile } from "../data/profile";
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <strong>{profile.name}</strong>
+      <p>{profile.positioning}</p>
+    </div>
+    <nav aria-label="Footer navigation">
+      <div class="link-row">
+        {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+        <a href={profile.github}>GitHub</a>
+        <a href={profile.orcid}>ORCID</a>
+      </div>
+    </nav>
+  </div>
+</footer>

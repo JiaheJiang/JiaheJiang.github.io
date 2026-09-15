@@ -1,0 +1,92 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import profilePhoto from "../assets/jiahe-profile.jpg";
+import { awards, education } from "../data/experience";
+
+const funFacts = [
+  {
+    icon: "🀄",
+    title: "Game nights",
+    text: "I love playing Mahjong and Avalon with friends.",
+  },
+  {
+    icon: "🎾",
+    title: "Racket sports",
+    text: "I play tennis and badminton, and I am still happily learning and improving.",
+  },
+  {
+    icon: "⛸️",
+    title: "Currently learning",
+    text: "I am trying to learn how to skate.",
+  },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="A personal introduction to Jiahe Jiang, a Computer Science undergraduate at UBC in Vancouver."
+>
+  <header class="page-header">
+    <p class="eyebrow">About</p>
+    <h1>A little more about me</h1>
+  </header>
+  <section class="section">
+    <div class="split about-intro">
+      <aside class="profile-panel about-photo-panel">
+        <div class="about-photo">
+          <Image
+            src={profilePhoto}
+            alt="Portrait of Jiahe Jiang"
+            widths={[360, 540, 720]}
+            sizes="(max-width: 820px) calc(100vw - 4rem), 360px"
+          />
+        </div>
+        <p class="metadata">UBC Computer Science · Vancouver, BC</p>
+      </aside>
+      <article class="prose">
+        <p>
+          I'm Jiahe, a Computer Science undergraduate at UBC in Vancouver. I enjoy building
+          things, learning new skills, and exploring new places and ideas. Outside of school and
+          research, I try to keep life interesting with games, sports, and whatever new hobby I
+          decide to pick up next.
+        </p>
+      </article>
+    </div>
+  </section>
+  <section class="section" id="outside-work">
+    <h2>Outside of work</h2>
+    <div class="fun-facts">
+      {funFacts.map((fact) => (
+        <article class="fun-fact">
+          <span aria-hidden="true">{fact.icon}</span>
+          <div>
+            <h3>{fact.title}</h3>
+            <p>{fact.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+  <section class="section" id="education">
+    <h2>Education</h2>
+    <div class="timeline">
+      {education.map((item) => (
+        <article class="timeline-item">
+          <time>{item.date}</time>
+          <div>
+            <h3>{item.title}</h3>
+            <p>{item.org}</p>
+            <p class="metadata">{item.detail}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+  <section class="section" id="awards-leadership">
+    <h2>Awards and leadership</h2>
+    <ul class="prose">
+      {awards.map((award) => <li>{award}</li>)}
+    </ul>
+  </section>
+</BaseLayout>

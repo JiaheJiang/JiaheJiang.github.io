@@ -1,0 +1,18 @@
+---
+const { eyebrow, title, text, href, linkText } = Astro.props as {
+  eyebrow?: string;
+  title: string;
+  text?: string;
+  href?: string;
+  linkText?: string;
+};
+---
+
+<div class="section-heading">
+  <div>
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h2>{title}</h2>
+    {text && <p>{text}</p>}
+  </div>
+  {href && linkText && <a href={href}>{linkText}</a>}
+</div>

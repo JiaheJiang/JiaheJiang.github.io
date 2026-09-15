@@ -1,0 +1,77 @@
+---
+import Figure from "../../components/Figure.astro";
+import PublicationEntry from "../../components/PublicationEntry.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { publications } from "../../data/publications";
+import { research } from "../../data/research";
+
+export function getStaticPaths() {
+  return research.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const relatedPublications = publications.filter((publication) =>
+  item.publicationIds.includes(publication.id),
+);
+---
+
+<BaseLayout title={item.shortTitle} description={item.summary}>
+  <header class="page-header">
+    <p class="eyebrow">{item.affiliation} · {item.dates}</p>
+    <h1>{item.title}</h1>
+    <p class="lead">{item.description}</p>
+  </header>
+  <section class="section">
+    <div class="split">
+      <aside>
+        <Figure {...item.visual} />
+        <div class="card">
+          <p class="eyebrow">Context</p>
+          <p><strong>Role:</strong> {item.role}</p>
+          <p><strong>Status:</strong> {item.stage}</p>
+          <ul class="tag-list">
+            {item.topics.map((topic) => <li>{topic}</li>)}
+          </ul>
+        </div>
+      </aside>
+      <article class="prose">
+        <h2>Overview</h2>
+        <p>{item.summary}</p>
+        <h2>My contribution</h2>
+        <ul>
+          {item.contribution.map((point) => <li>{point}</li>)}
+        </ul>
+        <h2>Technical contribution</h2>
+        <p>{item.method}</p>
+        <h2>Approach</h2>
+        <p>{item.approach}</p>
+        <h2>Evidence</h2>
+        <ul>
+          {item.evidence.map((point) => <li>{point}</li>)}
+        </ul>
+        <h2>Limitations</h2>
+        <ul>
+          {item.limitations.map((point) => <li>{point}</li>)}
+        </ul>
+        {item.resources.length > 0 && (
+          <>
+            <h2>Resources</h2>
+            <div class="link-row">
+              {item.resources.map((resource) => <a href={resource.href}>{resource.label}</a>)}
+            </div>
+          </>
+        )}
+      </article>
+    </div>
+  </section>
+  {relatedPublications.length > 0 && (
+    <section class="section">
+      <div class="header-inner">
+        <div class="grid">
+          <h2>Related publication</h2>
+          {relatedPublications.map((publication) => <PublicationEntry publication={publication} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>

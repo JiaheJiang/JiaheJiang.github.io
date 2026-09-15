@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { experience } from "../data/experience";
+---
+
+<BaseLayout
+  title="Experience"
+  description="Research, educational technology, and industry experience for Jiahe Jiang."
+>
+  <header class="page-header">
+    <p class="eyebrow">Experience</p>
+    <h1>Research appointments and delivery work</h1>
+    <p class="lead">
+      Experience is ordered in reverse chronology and links to research pages where a fuller case
+      study exists.
+    </p>
+  </header>
+  <section class="section">
+    <div class="timeline">
+      {experience.map((item) => (
+        <article class="timeline-item">
+          <time>{item.date}</time>
+          <div>
+            <h2>{item.title}</h2>
+            <p><strong>{item.org}</strong></p>
+            <ul>
+              {item.bullets.map((bullet) => <li>{bullet}</li>)}
+            </ul>
+            {item.href && <a href={item.href}>Related page</a>}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

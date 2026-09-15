@@ -1,0 +1,253 @@
+---
+type Kind =
+  | "signal"
+  | "spectrum"
+  | "workflow"
+  | "graph"
+  | "grid"
+  | "orbit"
+  | "biofusion"
+  | "deconvolution"
+  | "iodine";
+
+const { label, caption, kind } = Astro.props as {
+  label: string;
+  caption: string;
+  kind: Kind;
+};
+
+const c = {
+  ink: "#241C35",
+  muted: "#756C8D",
+  accent: "#5A3FA0",
+  accent2: "#8B6DD7",
+  accent3: "#B8A1EA",
+  line: "#DED5F1",
+  lineStrong: "#C8B8E8",
+  surface: "#FFFFFF",
+  wash: "#F7F4FE",
+  panel: "#F1ECFB"
+};
+
+const topicLabel: Record<Kind, string> = {
+  signal: "DeepEP-AFDM",
+  spectrum: "LCMA",
+  workflow: "LC-MS auto",
+  graph: "HBGTLRR",
+  grid: "Robustness",
+  orbit: "DGZC-OFDM",
+  biofusion: "DMFMDA",
+  deconvolution: "DIA",
+  iodine: "IodoFinder"
+};
+---
+
+<figure class="figure research-figure">
+  <svg viewBox="0 0 720 450" role="img" aria-label={label}>
+    <rect width="720" height="450" rx="0" fill={c.wash}></rect>
+    <path d="M70 80 H650 M70 370 H650" stroke={c.line} stroke-width="1.5"></path>
+    <path d="M92 61 H628 Q658 61 658 91 V359 Q658 389 628 389 H92 Q62 389 62 359 V91 Q62 61 92 61 Z" fill={c.surface} stroke={c.lineStrong}></path>
+    <text x="94" y="104" fill={c.muted} font-size="18" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">{topicLabel[kind]}</text>
+
+    {kind === "signal" && (
+      <g>
+        <path d="M116 248 C156 174 196 322 236 248 S316 174 356 248 436 322 476 248 556 174 596 248" fill="none" stroke={c.accent3} stroke-width="18" stroke-linecap="round" opacity="0.45"></path>
+        <path d="M116 248 C156 174 196 322 236 248 S316 174 356 248 436 322 476 248 556 174 596 248" fill="none" stroke={c.accent} stroke-width="5" stroke-linecap="round"></path>
+        {[
+          ["AFDM", 122, 145],
+          ["EP", 282, 280],
+          ["PriorNet", 405, 136],
+          ["DampNet", 505, 282]
+        ].map(([text, x, y]) => (
+          <g>
+            <rect x={Number(x) - 54} y={Number(y) - 28} width="108" height="56" rx="10" fill={c.panel} stroke={c.lineStrong}></rect>
+            <text x={x} y={Number(y) + 6} text-anchor="middle" fill={c.ink} font-size="18" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">{text}</text>
+          </g>
+        ))}
+        <path d="M168 146 H230 M337 278 H383 M459 137 H503" stroke={c.accent2} stroke-width="3" stroke-linecap="round"></path>
+      </g>
+    )}
+
+    {kind === "spectrum" && (
+      <g>
+        <rect x="105" y="141" width="166" height="180" rx="14" fill={c.panel} stroke={c.lineStrong}></rect>
+        <rect x="449" y="141" width="166" height="180" rx="14" fill={c.panel} stroke={c.lineStrong}></rect>
+        <rect x="295" y="162" width="130" height="138" rx="14" fill={c.surface} stroke={c.lineStrong}></rect>
+        <text x="188" y="127" text-anchor="middle" fill={c.muted} font-size="16" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">RGB</text>
+        <text x="514" y="127" text-anchor="middle" fill={c.muted} font-size="16" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">IR</text>
+        <text x="360" y="223" text-anchor="middle" fill={c.ink} font-size="18" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">ISRA</text>
+        <text x="360" y="247" text-anchor="middle" fill={c.muted} font-size="14" font-family="Source Sans 3, Segoe UI, sans-serif">GCF</text>
+        {[0, 1, 2].map((row) => (
+          <g>
+            <path d={`M132 ${180 + row * 45} H244`} stroke={row === 1 ? c.accent : c.accent2} stroke-width="6" stroke-linecap="round"></path>
+            <path d={`M476 ${185 + row * 42} H588`} stroke={row === 1 ? c.accent3 : c.accent2} stroke-width="6" stroke-linecap="round"></path>
+          </g>
+        ))}
+        <path d="M271 207 H295 M425 207 H449 M271 254 H295 M425 254 H449" stroke={c.accent} stroke-width="4" stroke-linecap="round"></path>
+        <path d="M360 300 V334 H510" stroke={c.accent} stroke-width="4" fill="none" stroke-linecap="round"></path>
+        <circle cx="510" cy="334" r="18" fill={c.accent}></circle>
+      </g>
+    )}
+
+    {kind === "workflow" && (
+      <g>
+        {[
+          ["Watch", 120],
+          ["Convert", 250],
+          ["Process", 380],
+          ["QC", 510]
+        ].map(([text, x], index) => (
+          <g>
+            <rect x={Number(x) - 48} y="198" width="96" height="70" rx="12" fill={index % 2 ? c.panel : c.surface} stroke={c.lineStrong}></rect>
+            <text x={x} y="240" text-anchor="middle" fill={c.ink} font-size="17" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">{text}</text>
+            {index < 3 && <path d={`M${Number(x) + 52} 233 H${Number(x) + 78}`} stroke={c.accent} stroke-width="4" stroke-linecap="round"></path>}
+          </g>
+        ))}
+        <path d="M92 162 C172 122 258 162 332 128 S480 132 602 104" fill="none" stroke={c.accent3} stroke-width="4" stroke-linecap="round"></path>
+        <path d="M104 315 H596" stroke={c.lineStrong} stroke-width="2"></path>
+        {[104, 158, 212, 266, 320, 374, 428, 482, 536, 590].map((x, index) => (
+          <line x1={x} y1={315} x2={x} y2={index % 2 ? 291 : 303} stroke={c.accent2} stroke-width="3" stroke-linecap="round"></line>
+        ))}
+      </g>
+    )}
+
+    {kind === "graph" && (
+      <g>
+        {[0, 1, 2].map((layer) => (
+          <g opacity={1 - layer * 0.12}>
+            <path d={`M170 ${165 + layer * 28} L315 ${122 + layer * 28} L470 ${165 + layer * 28} L548 ${265 + layer * 28} L330 ${316 + layer * 28} Z`} fill="none" stroke={layer === 1 ? c.accent2 : c.lineStrong} stroke-width="3"></path>
+            {[
+              [170, 165],
+              [315, 122],
+              [470, 165],
+              [548, 265],
+              [330, 316]
+            ].map(([x, y], idx) => (
+              <circle cx={x} cy={y + layer * 28} r={idx === 1 ? 15 : 12} fill={idx === 1 ? c.accent : c.surface} stroke={c.accent2} stroke-width="3"></circle>
+            ))}
+          </g>
+        ))}
+        <rect x="249" y="205" width="170" height="74" rx="14" fill={c.panel} stroke={c.lineStrong}></rect>
+        <text x="334" y="236" text-anchor="middle" fill={c.ink} font-size="17" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">TNN</text>
+        <text x="334" y="258" text-anchor="middle" fill={c.muted} font-size="13" font-family="Source Sans 3, Segoe UI, sans-serif">consensus graph</text>
+      </g>
+    )}
+
+    {kind === "grid" && (
+      <g>
+        {[0, 1, 2, 3, 4].map((col) => (
+          <g>
+            <line x1={140 + col * 92} y1="150" x2={140 + col * 92} y2="314" stroke={c.lineStrong} stroke-width="3"></line>
+            <line x1="140" y1={150 + col * 41} x2="508" y2={150 + col * 41} stroke={c.lineStrong} stroke-width="3"></line>
+          </g>
+        ))}
+        {[
+          [140, 150],
+          [232, 191],
+          [324, 150],
+          [416, 232],
+          [508, 314],
+          [232, 314],
+          [416, 150],
+          [324, 273]
+        ].map(([x, y], index) => (
+          <circle cx={x} cy={y} r={index < 3 ? 18 : 13} fill={index < 3 ? c.accent : c.surface} stroke={c.accent2} stroke-width="4"></circle>
+        ))}
+        <path d="M140 150 L232 191 L324 150 L416 232 L508 314 M232 314 L324 273 L416 150" fill="none" stroke={c.accent} stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+        <rect x="538" y="176" width="70" height="112" rx="12" fill={c.panel} stroke={c.lineStrong}></rect>
+        <text x="573" y="222" text-anchor="middle" fill={c.ink} font-size="15" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">attack</text>
+        <text x="573" y="246" text-anchor="middle" fill={c.muted} font-size="13" font-family="Source Sans 3, Segoe UI, sans-serif">compare</text>
+      </g>
+    )}
+
+    {kind === "orbit" && (
+      <g>
+        <ellipse cx="360" cy="248" rx="202" ry="82" fill="none" stroke={c.lineStrong} stroke-width="3"></ellipse>
+        <circle cx="360" cy="248" r="50" fill={c.panel} stroke={c.lineStrong}></circle>
+        <path d="M322 254 C344 230 378 231 398 254 C378 274 344 275 322 254 Z" fill={c.surface} stroke={c.accent2} stroke-width="3"></path>
+        <circle cx="522" cy="200" r="22" fill={c.accent}></circle>
+        <path d="M503 212 C464 243 424 256 398 258" fill="none" stroke={c.accent} stroke-width="4" stroke-linecap="round" stroke-dasharray="9 9"></path>
+        <path d="M176 290 C245 230 467 236 594 164" fill="none" stroke={c.accent3} stroke-width="5" stroke-linecap="round"></path>
+        {[208, 274, 340, 406, 472].map((x, index) => (
+          <rect x={x} y={318 - index * 15} width="36" height={16 + index * 8} rx="6" fill={index % 2 ? c.accent2 : c.panel} stroke={c.lineStrong}></rect>
+        ))}
+        <text x="360" y="366" text-anchor="middle" fill={c.muted} font-size="14" font-family="Source Sans 3, Segoe UI, sans-serif">pilot assignment - BER - ranging</text>
+      </g>
+    )}
+
+    {kind === "biofusion" && (
+      <g>
+        <rect x="96" y="151" width="128" height="64" rx="14" fill={c.panel} stroke={c.lineStrong}></rect>
+        <rect x="96" y="247" width="128" height="64" rx="14" fill={c.panel} stroke={c.lineStrong}></rect>
+        <text x="160" y="188" text-anchor="middle" fill={c.ink} font-size="17" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">miRNA</text>
+        <text x="160" y="284" text-anchor="middle" fill={c.ink} font-size="17" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">disease</text>
+        <path d="M224 183 H306 M224 279 H306" stroke={c.accent} stroke-width="4" stroke-linecap="round"></path>
+        <rect x="306" y="132" width="140" height="72" rx="14" fill={c.surface} stroke={c.lineStrong}></rect>
+        <rect x="306" y="254" width="140" height="72" rx="14" fill={c.surface} stroke={c.lineStrong}></rect>
+        <text x="376" y="165" text-anchor="middle" fill={c.ink} font-size="16" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">Consensus</text>
+        <text x="376" y="188" text-anchor="middle" fill={c.muted} font-size="13" font-family="Source Sans 3, Segoe UI, sans-serif">Subspace</text>
+        <text x="376" y="287" text-anchor="middle" fill={c.ink} font-size="16" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">Specific</text>
+        <text x="376" y="310" text-anchor="middle" fill={c.muted} font-size="13" font-family="Source Sans 3, Segoe UI, sans-serif">Subspace</text>
+        <path d="M446 168 C496 169 512 198 532 223 M446 290 C500 286 514 252 532 223" stroke={c.accent2} stroke-width="4" fill="none" stroke-linecap="round"></path>
+        <rect x="532" y="184" width="96" height="78" rx="14" fill={c.accent} stroke={c.accent}></rect>
+        <text x="580" y="216" text-anchor="middle" fill="#FFFFFF" font-size="15" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">DA</text>
+        <text x="580" y="239" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Source Sans 3, Segoe UI, sans-serif">refine</text>
+      </g>
+    )}
+
+    {kind === "deconvolution" && (
+      <g>
+        <rect x="100" y="150" width="190" height="162" rx="14" fill={c.panel} stroke={c.lineStrong}></rect>
+        <rect x="430" y="150" width="190" height="162" rx="14" fill={c.surface} stroke={c.lineStrong}></rect>
+        <path d="M118 300 H272 M448 300 H602" stroke={c.lineStrong} stroke-width="2"></path>
+        <path d="M112 300 C150 168 196 168 232 300 Z" fill={c.accent3} opacity="0.55"></path>
+        <path d="M150 300 C188 196 244 196 278 300 Z" fill={c.accent2} opacity="0.5"></path>
+        <path d="M448 300 C462 214 476 214 490 300 Z" fill={c.accent}></path>
+        <path d="M508 300 C522 192 536 192 550 300 Z" fill={c.accent2}></path>
+        <path d="M566 300 C580 224 594 224 608 300 Z" fill={c.accent3}></path>
+        <path d="M300 231 H414" stroke={c.accent} stroke-width="4" stroke-linecap="round"></path>
+        <path d="M414 231 L400 223 M414 231 L400 239" stroke={c.accent} stroke-width="4" stroke-linecap="round"></path>
+        <text x="195" y="336" text-anchor="middle" fill={c.muted} font-size="14" font-family="Source Sans 3, Segoe UI, sans-serif">co-eluting</text>
+        <text x="525" y="336" text-anchor="middle" fill={c.muted} font-size="14" font-family="Source Sans 3, Segoe UI, sans-serif">resolved features</text>
+      </g>
+    )}
+
+    {kind === "iodine" && (
+      <g>
+        <rect x="100" y="150" width="188" height="162" rx="14" fill={c.panel} stroke={c.lineStrong}></rect>
+        <path d="M118 300 H270" stroke={c.lineStrong} stroke-width="2"></path>
+        {[
+          [132, 62],
+          [152, 112],
+          [172, 44],
+          [192, 150],
+          [212, 74],
+          [232, 122],
+          [252, 52],
+          [270, 92]
+        ].map(([x, h]) => (
+          <line x1={x} y1="300" x2={x} y2={300 - Number(h)} stroke={Number(x) === 192 ? c.accent : c.accent2} stroke-width="5" stroke-linecap="round"></line>
+        ))}
+        <circle cx="192" cy="142" r="13" fill={c.accent}></circle>
+        <text x="192" y="147" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">I</text>
+        <text x="194" y="336" text-anchor="middle" fill={c.muted} font-size="14" font-family="Source Sans 3, Segoe UI, sans-serif">LC-MS/MS</text>
+        <circle cx="330" cy="231" r="16" fill={c.surface} stroke={c.accent2} stroke-width="3"></circle>
+        <text x="330" y="236" text-anchor="middle" fill={c.ink} font-size="14" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">C</text>
+        <line x1="346" y1="231" x2="368" y2="231" stroke={c.accent2} stroke-width="3"></line>
+        <circle cx="388" cy="231" r="20" fill={c.accent}></circle>
+        <text x="388" y="237" text-anchor="middle" fill="#FFFFFF" font-size="17" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">I</text>
+        <path d="M408 231 H430" stroke={c.accent} stroke-width="4" stroke-linecap="round"></path>
+        <path d="M430 231 L416 223 M430 231 L416 239" stroke={c.accent} stroke-width="4" stroke-linecap="round"></path>
+        <rect x="446" y="150" width="174" height="162" rx="14" fill={c.surface} stroke={c.lineStrong}></rect>
+        <text x="533" y="180" text-anchor="middle" fill={c.muted} font-size="15" font-family="Source Sans 3, Segoe UI, sans-serif" font-weight="700">Iodine database</text>
+        {[0, 1, 2].map((row) => (
+          <g>
+            <rect x="464" y={196 + row * 36} width="138" height="28" rx="8" fill={row === 1 ? c.accent : c.panel} stroke={c.lineStrong}></rect>
+            <circle cx="480" cy={210 + row * 36} r="6" fill={row === 1 ? "#FFFFFF" : c.accent2}></circle>
+          </g>
+        ))}
+      </g>
+    )}
+  </svg>
+  <figcaption>{caption}</figcaption>
+</figure>

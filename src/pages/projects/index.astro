@@ -1,0 +1,29 @@
+---
+import ProjectCard from "../../components/ProjectCard.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { projects } from "../../data/projects";
+---
+
+<BaseLayout
+  title="Projects"
+  description="Software and analysis projects by Jiahe Jiang, including research tools, prototypes, desktop applications, and statistical analyses."
+>
+  <header class="page-header">
+    <p class="eyebrow">Projects</p>
+    <h1>Technical and software projects</h1>
+    <p class="lead">
+      Software, systems, and computational tools across scientific computing, machine learning,
+      data analysis, and workflow automation.
+    </p>
+  </header>
+  <section class="section">
+    <SectionHeading
+      title="Selected Projects"
+      text="Explore how each project was built and where it can be used."
+    />
+    <div class="grid two">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</BaseLayout>

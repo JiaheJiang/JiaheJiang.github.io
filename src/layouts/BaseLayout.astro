@@ -1,0 +1,51 @@
+---
+import Header from "../components/Header.astro";
+import { profile } from "../data/profile";
+import "../styles/global.css";
+
+const {
+  title = profile.name,
+  description = profile.description
+} = Astro.props as { title?: string; description?: string };
+
+const pageTitle = title === profile.name ? `${profile.name} | ${profile.positioning}` : `${title} | ${profile.name}`;
+const canonical = new URL(Astro.url.pathname, profile.siteUrl).toString();
+const personSchema = Astro.url.pathname === "/" ? {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  email: profile.email,
+  url: profile.siteUrl,
+  sameAs: [profile.github, profile.orcid, profile.linkedin]
+} : {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  url: profile.siteUrl
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.ico?v=2" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personSchema)}></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <Header />
+    <main id="content">
+      <slot />
+    </main>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+---
+import type { Publication } from "../data/publications";
+
+const { publication } = Astro.props as { publication: Publication };
+---
+
+<article class="publication" id={publication.id}>
+  <div>
+    <p class="publication-title">{publication.title}</p>
+    <p>
+      {publication.authors.map((author, index) => (
+        <>
+          {author === "Jiahe Jiang" ? <strong>{author}</strong> : <span>{author}</span>}
+          {index < publication.authors.length - 1 ? ", " : ""}
+        </>
+      ))}
+    </p>
+    <p class="metadata">{publication.venue}, {publication.year} · {publication.type}</p>
+  </div>
+  <p class="publication-overview">{publication.overview}</p>
+  <div class="link-row">
+    {publication.doi && <a href={`https://doi.org/${publication.doi}`}>DOI {publication.doi}</a>}
+  </div>
+  {publication.note && <p class="metadata">{publication.note}</p>}
+</article>
